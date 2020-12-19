@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import {User} from 'src/models/auth';
 import { Router } from '@angular/router';
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-login',
+  templateUrl: 'login.page.html',
+  styleUrls: ['login.page.scss'],
 })
-export class HomePage {
+export class LoginPage {
   user = {} as User;
   constructor(private router: Router) {}
    Login(user:User){
