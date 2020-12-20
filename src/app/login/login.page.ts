@@ -12,12 +12,13 @@ export class LoginPage {
   user = {} as User;
   constructor(private router: Router, private navCont: NavController) { }
   Login(user: User) {
-    console.log(user.username)
+    console.log(user)
     this.navCont.navigateRoot(['tabs'])
   }
-  RegisterGo() {
+  Register() {
     this.router.navigate(['/register'])
     console.log('click register')
+
 
   }
 
