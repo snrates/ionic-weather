@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { User } from 'src/models/auth';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
-
+import { NavController, ToastController } from '@ionic/angular';
+import { AngularFireAuth } from '@angular/fire/auth';
 @Component({
   selector: 'app-login',
   templateUrl: 'login.page.html',
@@ -10,16 +10,31 @@ import { NavController } from '@ionic/angular';
 })
 export class LoginPage {
   user = {} as User;
-  constructor(private router: Router, private navCont: NavController) { }
+  constructor(private router: Router, private navCont: NavController,
+    public ngFireAuth: AngularFireAuth, private toast: ToastController) { }
+
   Login(user: User) {
-    console.log(user)
-    this.navCont.navigateRoot(['tabs'])
+
+    this.ngFireAuth.signInWithEmailAndPassword(user.email, user.password).then((success) => {
+      this.navCont.navigateRoot("tabs")
+      this.showtoast("HOŞGELDİNİZ")
+
+    }).catch((err) => {
+      this.showtoast("Giriş Hatalı")
+      console.log(err)
+    })
   }
+
   Register() {
     this.router.navigate(['/register'])
-    console.log('click register')
+  }
 
-
+  async showtoast(msg: string) {
+    const toast = await this.toast.create({
+      message: msg,
+      duration: 3000,
+    });
+    toast.present();
   }
 
 }
