@@ -3,6 +3,8 @@ import { User } from 'src/models/auth';
 import { Router } from '@angular/router';
 import { NavController, ToastController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Storage } from '@ionic/storage';
 @Component({
   selector: 'app-login',
   templateUrl: 'login.page.html',
@@ -11,11 +13,17 @@ import { AngularFireAuth } from '@angular/fire/auth';
 export class LoginPage {
   user = {} as User;
   constructor(private router: Router, private navCont: NavController,
-    public ngFireAuth: AngularFireAuth, private toast: ToastController) { }
+    public ngFireAuth: AngularFireAuth, public ngFireStore: AngularFirestore,
+    private toast: ToastController,
+    private store: Storage) { }
 
   Login(user: User) {
 
     this.ngFireAuth.signInWithEmailAndPassword(user.email, user.password).then((success) => {
+      this.ngFireStore.collection('kullanici').doc(success.user.uid).get().subscribe((suc) => {
+        this.store.set('useruid', success.user.uid)
+        this.store.set('sehir', suc.get('sehirler'))
+      })
       this.navCont.navigateRoot("tabs")
       this.showtoast("HOŞGELDİNİZ")
 

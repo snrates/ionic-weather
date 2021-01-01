@@ -7,5 +7,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-         
+  <ion-list>
+    <ion-item *ngFor="let item of array">
+      <ion-button (click)="onClick(item)" expand="block" fill="clear" shape="round">
+        {{ item.name }}------{{ item.weather[0].description }}---{{item.main.temp}}
+      </ion-button>
+    </ion-item>
+
+  </ion-list> 
 </ion-content>
